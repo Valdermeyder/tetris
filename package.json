@@ -1,0 +1,16 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "Simple tetris game",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "tetris",
+    "game",
+    "web"
+  ],
+  "author": "Volodymyr Huzar",
+  "license": "ISC"
+}
