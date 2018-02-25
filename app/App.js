@@ -1,4 +1,5 @@
 import {Application, loader} from 'pixi.js/dist/pixi.min'
+// eslint-disable-next-line import/no-unresolved
 import assets from '../assets/*'
 import {createBackground} from './Background'
 import {generateActiveImg} from './piece/pieceGenerators'

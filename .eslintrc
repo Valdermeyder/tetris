@@ -1,0 +1,30 @@
+{
+	"extends": [
+		"eslint:recommended",
+		"plugin:import/errors",
+		"plugin:import/warnings"
+	],
+	"plugins": [
+		"import"
+	],
+	"rules": {
+		"indent": [
+			2,
+			"tab",
+			{
+				"SwitchCase": 1
+			}
+		]
+	},
+	"parserOptions": {
+		"ecmaVersion": 6,
+		"sourceType": "module",
+		"ecmaFeatures": {
+			"modules": true,
+			"experimentalObjectRestSpread": true
+		}
+	},
+	"env": {
+		"browser": true
+	}
+}
