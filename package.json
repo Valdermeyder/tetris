@@ -19,8 +19,16 @@
     "pixi.js": "^4.7.0"
   },
   "devDependencies": {
+    "babel-jest": "^22.4.1",
     "eslint": "^4.18.1",
     "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jest": "^21.12.3",
+    "jest": "^22.4.2",
     "parcel-bundler": "^1.6.2"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.png$": "<rootDir>/__mocks__/fileMock.js"
+    }
   }
 }

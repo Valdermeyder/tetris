@@ -5,7 +5,7 @@
 		"plugin:import/warnings"
 	],
 	"plugins": [
-		"import"
+		"import", "jest"
 	],
 	"rules": {
 		"indent": [
@@ -14,7 +14,9 @@
 			{
 				"SwitchCase": 1
 			}
-		]
+		],
+		"quotes": [2, "single"],
+		"semi": [2, "never"]
 	},
 	"parserOptions": {
 		"ecmaVersion": 6,
@@ -25,6 +27,8 @@
 		}
 	},
 	"env": {
-		"browser": true
+		"browser": true,
+		"jest/globals": true,
+		"node": true
 	}
 }

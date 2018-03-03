@@ -1,36 +1,35 @@
 import {Application, loader} from 'pixi.js/dist/pixi.min'
 // eslint-disable-next-line import/no-unresolved
-import assets from '../assets/*'
+import assets from '../assets/*.png'
 import {createBackground} from './Background'
 import {generateActiveImg} from './piece/pieceGenerators'
-import {moveDown} from './piece/pieceMovements'
-import {getKeyDownHandler} from './piece/pieceKeyHandlers'
-import {generateLoading} from './Loading'
-import {CHANGE_ACTIVE_PIECE} from './piece/actionTypes'
+import {getArrowsHandler} from './board/boardKeyHandlers'
+import {generateLoading} from './textSprites'
 import {createPieceSprite} from './piece/pieceCreators'
-
-const onAction = (state, container) => action => {
-	switch (action.type) {
-		case CHANGE_ACTIVE_PIECE: {
-			const newActivePiece = createPieceSprite(action.img, action.cfg)
-			container.removeChild(state.activePiece)
-			container.addChild(newActivePiece)
-			state.activePiece = newActivePiece
-		}
-	}
-}
+import {initBoardState} from './board/boardGenerators'
+import {moveToFloor} from './board/boardMovements'
+import {onAction} from './appActionHandlers'
 
 export const createApp = ({tileSize, wideCells, heightCells}) => {
 	const appConfig = {width: tileSize * wideCells, height: tileSize * heightCells}
-	const appState = {boundaries: {left: 0, right: appConfig.width, bottom: appConfig.height}, tileSize}
+	const appState = {
+		boundaries: {left: 0, right: appConfig.width, bottom: appConfig.height},
+		tileSize,
+		board: initBoardState(wideCells, heightCells),
+		onDestroy: []
+	}
 	const app = new Application(appConfig)
+	appState.container = app.stage
 	app.stage.addChild(generateLoading())
 	loader.add(Object.entries(assets)).load(() => {
-		app.stage.addChild(createBackground(appConfig, tileSize))
+		app.stage.addChild(createBackground(appState))
 		appState.activePiece = createPieceSprite(generateActiveImg())
-		window.addEventListener('keydown', getKeyDownHandler(appState, onAction(appState, app.stage)))
+		const dispatch = onAction(appState)
+		const arrowsKeyDownHandler = getArrowsHandler(appState, dispatch)
+		window.addEventListener('keydown', arrowsKeyDownHandler)
 		app.stage.addChild(appState.activePiece)
-		app.ticker.add(() => moveDown(appState.activePiece, appConfig.height))
+		app.ticker.add(() => moveToFloor(appState, dispatch))
+		appState.onDestroy.push(app.ticker.stop.bind(app.ticker), () => window.removeEventListener('keydown', arrowsKeyDownHandler))
 	})
 	return app.view
 }
