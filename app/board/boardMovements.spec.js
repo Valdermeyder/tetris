@@ -13,7 +13,7 @@ describe('boardMovements', () => {
 		let board, activePiece
 
 		beforeEach(() => {
-			board = [[{free: true}, {free: true}]]
+			board = [[{free: true}, {free: true}], [{free: true}, {free: true}]]
 			activePiece = createTestActivePiece(tileSize)
 		})
 
@@ -33,6 +33,14 @@ describe('boardMovements', () => {
 			expect(board[0][1].free).toBeFalsy()
 		})
 
+		test('should occupy cells when floor is reached with on x bigger the width', () => {
+			activePiece.x = tileSize
+			const appState = {board: board, activePiece: activePiece, tileSize}
+			moveToFloor(appState, jest.fn(), tileSize)
+			moveToFloor(appState, jest.fn(), tileSize)
+			expect(board[1][1].free).toBeFalsy()
+		})
+
 		test('should increment activePiece y by default speed', () => {
 			const appState = {board: board, activePiece: activePiece, tileSize}
 			moveToFloor(appState, jest.fn())
@@ -43,6 +51,14 @@ describe('boardMovements', () => {
 			const appState = {board: board, activePiece: activePiece, tileSize}
 			moveToFloor(appState, jest.fn(), tileSize)
 			expect(activePiece.y).toBe(2)
+		})
+
+		test('should not increment activePiece y by provided speed when floor is reached by one of piece tile', () => {
+			board = [[{free: true}, {free: true}], [{free: true}, {free: false}]]
+			activePiece = createTestActivePiece(tileSize, 2)
+			const appState = {board: board, activePiece: activePiece, tileSize}
+			moveToFloor(appState, jest.fn(), tileSize)
+			expect(activePiece.y).toBe(0)
 		})
 
 		test('should not increment activePiece x', () => {
@@ -90,7 +106,7 @@ describe('boardMovements', () => {
 		})
 
 		test('should not increment activePiece x when right border is reached', () => {
-			board = [[{free: true}, {free: false}], [{free: true}, {free: true}]]
+			board = [[{free: true}, {free: true}], [{free: false}, {free: true}]]
 			const appState = {board: board, activePiece: activePiece, tileSize}
 			moveToRight(appState)
 			expect(activePiece.x).toBe(0)
