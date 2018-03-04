@@ -33,6 +33,31 @@ describe('boardMovements', () => {
 			expect(board[0][1].free).toBeFalsy()
 		})
 
+		test('should release row when whole row is occupied', () => {
+			const appState = {board: board, activePiece: activePiece, tileSize}
+			moveToFloor(appState, jest.fn(), tileSize)
+			moveToFloor(appState, jest.fn(), tileSize)
+			appState.activePiece = createTestActivePiece(tileSize)
+			appState.activePiece.x = tileSize
+			moveToFloor(appState, jest.fn(), tileSize)
+			moveToFloor(appState, jest.fn(), tileSize)
+			expect(board[0][1].free).toBeTruthy()
+			expect(board[1][1].free).toBeTruthy()
+		})
+
+		test('should release all occupied rows', () => {
+			activePiece = createTestActivePiece(tileSize, 2)
+			const appState = {board: board, activePiece: activePiece, tileSize}
+			moveToFloor(appState, jest.fn(), tileSize)
+			appState.activePiece = createTestActivePiece(tileSize, 2)
+			appState.activePiece.x = tileSize
+			moveToFloor(appState, jest.fn(), tileSize)
+			expect(board[0][1].free).toBeTruthy()
+			expect(board[1][1].free).toBeTruthy()
+			expect(board[0][0].free).toBeTruthy()
+			expect(board[1][0].free).toBeTruthy()
+		})
+
 		test('should occupy cells when floor is reached with on x bigger the width', () => {
 			activePiece.x = tileSize
 			const appState = {board: board, activePiece: activePiece, tileSize}

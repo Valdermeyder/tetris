@@ -1,8 +1,9 @@
 import {moveDown, moveLeft, moveRight} from '../piece/pieceMovements'
-import cyanBlock from '../../assets/block_cyan.png'
 import {generateActivePiece} from '../piece/pieceActions'
 import {changeBoardImages} from './boardActions'
 import {gameOver} from '../appActions'
+import {mapColumnsToRows} from './boardMappers'
+import {occupyBorderCells, releaseFullyOccupiedRows} from './boardModifiers'
 
 const getColumnFloor = (column, startY = 0) => {
 	for (let y = startY; y < column.length; y++) {
@@ -15,36 +16,23 @@ const getColumnFloor = (column, startY = 0) => {
 
 const getLowestColumnFloor = (columns, startY) => Math.min(...columns.map(column => getColumnFloor(column, startY)))
 
-const getPieceColumns = ({board, activePiece, tileSize}) => {
+const getActivePieceColumns = ({board, activePiece, tileSize}) => {
 	const xFirstIndex = Math.round(activePiece.x / tileSize)
 	const xLastIndex = xFirstIndex + Math.round(activePiece.width / tileSize)
 	return board.filter((column, index) => index >= xFirstIndex && index < xLastIndex)
 }
 
-const occupyBorderCells = appState => {
-	const xFirstIndex = Math.round(appState.activePiece.x / appState.tileSize)
-	const xLength = Math.round(appState.activePiece.width / appState.tileSize)
-	const yFirstIndex = Math.round(appState.activePiece.y / appState.tileSize)
-	const yLength = Math.round(appState.activePiece.height / appState.tileSize)
-	for (let x = xFirstIndex; x < xFirstIndex + xLength; x++) {
-		const column = appState.board[x]
-		for (let y = yFirstIndex; y < yFirstIndex + yLength; y++) {
-			column[y].free = false
-			column[y].img = cyanBlock
-		}
-	}
-}
-
 const couldBeMovedDown = (sprite, floor, speed = 1) => sprite.y <= floor - sprite.height - speed
 
 export const moveToFloor = (appState, dispatch, speed) => {
-	const columnFloor = getLowestColumnFloor(getPieceColumns(appState), Math.round(appState.activePiece.y / appState.tileSize)) * appState.tileSize
+	const columnFloor = getLowestColumnFloor(getActivePieceColumns(appState), Math.round(appState.activePiece.y / appState.tileSize)) * appState.tileSize
 	if (columnFloor === 0) {
 		dispatch(gameOver())
 	} else if (couldBeMovedDown(appState.activePiece, columnFloor, speed)) {
 		moveDown(appState.activePiece, speed)
 	} else {
 		occupyBorderCells(appState)
+		releaseFullyOccupiedRows(appState)
 		dispatch(changeBoardImages())
 		dispatch(generateActivePiece())
 	}
@@ -60,19 +48,7 @@ const getRowRightBorder = (row, startX = 0) => {
 	}
 	return row.length
 }
-
 const getLowestRightBorder = (rows, startX) => Math.min(...rows.map(row => getRowRightBorder(row, startX)))
-
-const mapColumnsToRows = ({board, activePiece, tileSize}) => {
-	const yFirstIndex = Math.round(activePiece.y / tileSize)
-	const yLastIndex = yFirstIndex + Math.round(activePiece.height / tileSize)
-	return board
-		.map(column => column.filter((row, index) => index >= yFirstIndex && index < yLastIndex))
-		.reduce((rows, column) => {
-			column.forEach((row, index) => rows[index] = [...(rows[index] || []), row])
-			return rows
-		}, [])
-}
 
 export const moveToRight = (appState) => {
 	const rightBorder = getLowestRightBorder(mapColumnsToRows(appState), appState.activePiece.x / appState.tileSize) * appState.tileSize
