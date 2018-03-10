@@ -19,17 +19,14 @@ describe('boardMovements', () => {
 
 		test('should occupy cells when floor is reached with default speed', () => {
 			const appState = {board: board, activePiece: activePiece, tileSize}
-			moveToFloor(appState, jest.fn())
-			moveToFloor(appState, jest.fn())
-			moveToFloor(appState, jest.fn())
+			activePiece.y = 2
 			moveToFloor(appState, jest.fn())
 			expect(board[0][1].free).toBeFalsy()
 		})
 
 		test('should occupy cells when floor is reached with provided speed', () => {
 			const appState = {board: board, activePiece: activePiece, tileSize}
-			moveToFloor(appState, jest.fn(), tileSize)
-			moveToFloor(appState, jest.fn(), tileSize)
+			moveToFloor(appState, jest.fn(), tileSize * 2)
 			expect(board[0][1].free).toBeFalsy()
 		})
 

@@ -23,9 +23,12 @@ export const getArrowsHandler = (state, dispatch) => event => {
 			event.preventDefault()
 			dispatch(changeActivePiece(getRotatedPieceImage(state.activePiece.texture.textureCacheIds[0])))
 			break
-		case keyCodes.downArrow:
+		case keyCodes.downArrow: {
 			event.preventDefault()
-			moveToFloor(state, dispatch, state.tileSize)
+			const moduleValue = state.activePiece.y % state.tileSize
+			const speed = moduleValue === 0 ? state.tileSize : state.tileSize - moduleValue
+			moveToFloor(state, dispatch, speed)
 			break
+		}
 	}
 }

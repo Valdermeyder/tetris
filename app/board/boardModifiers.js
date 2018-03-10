@@ -7,7 +7,7 @@ const occupyBoardCell = (column, rowIndex) => {
 	column[rowIndex].img = cyanBlock
 }
 
-export const occupyBorderCells = ({board, activePiece, tileSize}) => {
+export const occupyBorderCells = ({board, tileSize}, activePiece) => {
 	const {columnFirstIndex, columnLastIndex, rowFirstIndex, rowLastIndex} = mapPieceCoordinatesToBoardIndexes(activePiece, tileSize)
 	for (let columnIndex = columnFirstIndex; columnIndex < columnLastIndex; columnIndex++) {
 		const column = board[columnIndex]
@@ -44,8 +44,8 @@ const modifyColumn = markedOccupiedRows => column => {
 
 const isOccupied = occupied => occupied
 
-export const releaseFullyOccupiedRows = ({board, activePiece, tileSize}) => {
-	const occupiedRowsToColumns = mapColumnsToRows({board, activePiece, tileSize})
+export const releaseFullyOccupiedRows = ({board, tileSize}, activePiece) => {
+	const occupiedRowsToColumns = mapColumnsToRows({board, tileSize}, activePiece)
 	const markedOccupiedRows = occupiedRowsToColumns.reduce(toMarkedOccupiedRows(mapPieceYToRowIndex(activePiece, tileSize)), {})
 	if (Object.entries(markedOccupiedRows).some(isOccupied)) {
 		board.forEach(modifyColumn(markedOccupiedRows))

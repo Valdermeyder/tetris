@@ -9,6 +9,7 @@ import {createPieceSprite} from './piece/pieceCreators'
 import {initBoardState} from './board/boardGenerators'
 import {moveToFloor} from './board/boardMovements'
 import {onAction} from './appActionHandlers'
+import {moveDown} from './piece/pieceMovements'
 
 export const createApp = ({tileSize, wideCells, heightCells}) => {
 	const appConfig = {width: tileSize * wideCells, height: tileSize * heightCells}
@@ -28,7 +29,8 @@ export const createApp = ({tileSize, wideCells, heightCells}) => {
 		const arrowsKeyDownHandler = getArrowsHandler(appState, dispatch)
 		window.addEventListener('keydown', arrowsKeyDownHandler)
 		app.stage.addChild(appState.activePiece)
-		app.ticker.add(() => moveToFloor(appState, dispatch))
+		app.ticker.add(() =>
+			appState.activePiece.y % appState.tileSize === 0 ? moveToFloor(appState, dispatch) : moveDown(appState.activePiece))
 		appState.onDestroy.push(app.ticker.stop.bind(app.ticker), () => window.removeEventListener('keydown', arrowsKeyDownHandler))
 	})
 	return app.view
