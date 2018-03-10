@@ -20,12 +20,3 @@ export const mapPieceCoordinatesToBoardIndexes = (piece, tileSize) => {
 	const rowLastIndex = rowFirstIndex + piece.height
 	return {columnFirstIndex, columnLastIndex, rowFirstIndex, rowLastIndex}
 }
-
-export const mapSpriteToBoardElement = (sprite, tileSize, yDiff = 0) => {
-	return {
-		x: Math.round(sprite.x / tileSize),
-		y: Math.round((sprite.y - yDiff) / tileSize),
-		width: Math.round(sprite.width / tileSize),
-		height: Math.round(sprite.height / tileSize)
-	}
-}

@@ -2,8 +2,9 @@ import {moveDown, moveLeft, moveRight} from '../piece/pieceMovements'
 import {generateActivePiece} from '../piece/pieceActions'
 import {changeBoardImages} from './boardActions'
 import {gameOver} from '../appActions'
-import {mapColumnsToRows, mapSpriteToBoardElement} from './boardMappers'
+import {mapColumnsToRows} from './boardMappers'
 import {occupyBorderCells, releaseFullyOccupiedRows} from './boardModifiers'
+import {mapSpriteToBoardElement} from '../piece/pieceMappers'
 
 const getColumnFloor = (column, startY = 0) => {
 	for (let y = startY; y < column.length; y++) {
