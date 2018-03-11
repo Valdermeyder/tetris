@@ -108,7 +108,7 @@ export const getRotatedPieceCfg = (sprite, tileSize) => {
 export const getPieceConfig = (pieceType) => piecesMap[pieceType]
 
 export const mapSpriteCoordinate = (coordinate, divider = 1, diff = 0) =>
-	Math.round((coordinate + diff) / divider)
+	Math.ceil((coordinate + diff) / divider)
 
 export const mapSpriteToBoardElement = (sprite, tileSize, yDiff = 0) => {
 	return {
