@@ -1,25 +1,35 @@
-import {couldSquareBeShown, couldSVerticalBeShown, couldSHorizontalBeShown} from '../piece/pieceTests'
-import {i13, i24, o1234, s13, s24} from './pieceTypes'
+import {i13, i24, o1234, s13, s24, z13, z24} from './pieceTypes'
+import {
+	couldSquareBeShown, couldSVerticalBeShown, couldSHorizontalBeShown, couldZHorizontalBeShown, couldZVerticalBeShown
+} from './pieceTests'
 
 const piecesMap = {
 	[i13]: {
-		piece: {img: i24, width: 1, height: 4}, changeX: (x) => x + 2, changeY: (y) => y - 1,
+		piece: {img: i24, width: 1, height: 4}, changeX: x => x + 2, changeY: y => y - 1,
 		couldBeShown: couldSquareBeShown
 	},
 	[i24]: {
-		piece: {img: i13, width: 4, height: 1}, changeX: (x) => x - 2, changeY: (y) => y + 1,
+		piece: {img: i13, width: 4, height: 1}, changeX: x => x - 2, changeY: y => y + 1,
 		couldBeShown: couldSquareBeShown
 	},
 	[o1234]: {
 		couldBeShown: couldSquareBeShown
 	},
 	[s13]: {
-		piece: {img: s24, width: 2, height: 4}, changeX: (x) => x + 1, changeY: (y) => y - 1,
+		piece: {img: s24, width: 2, height: 4}, changeX: x => x + 1, changeY: y => y - 1,
 		couldBeShown: couldSHorizontalBeShown
 	},
 	[s24]: {
-		piece: {img: s13, width: 4, height: 2}, changeX: (x) => x - 1, changeY: (y) => y + 1,
+		piece: {img: s13, width: 4, height: 2}, changeX: x => x - 1, changeY: y => y + 1,
 		couldBeShown: couldSVerticalBeShown
+	},
+	[z13]: {
+		piece: {img: z24, width: 2, height: 4}, changeX: x => x + 1, changeY: y => y - 1,
+		couldBeShown: couldZHorizontalBeShown
+	},
+	[z24]: {
+		piece: {img: z13, width: 4, height: 2}, changeX: x => x - 1, changeY: y => y + 1,
+		couldBeShown: couldZVerticalBeShown
 	}
 }
 

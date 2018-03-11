@@ -11,14 +11,26 @@ export const couldSquareBeShown = (board, piece) => {
 	return true
 }
 
+export const couldSHorizontalBeShown = (board, {x, y, width, height}) => {
+	return isPositionFree(board, x, y + height - 1)
+		&& isPositionFree(board, x + width - 1, y)
+		&& couldSquareBeShown(board, {y, height, x: x + 1, width: width - 2})
+}
+
 export const couldSVerticalBeShown = (board, {x, y, width, height}) => {
 	return isPositionFree(board, x, y)
 		&& isPositionFree(board, x + width - 1, y + height - 1)
 		&& couldSquareBeShown(board, {x, width, y: y + 1, height: height - 2})
 }
 
-export const couldSHorizontalBeShown = (board, {x, y, width, height}) => {
-	return isPositionFree(board, x, y + height - 1)
-		&& isPositionFree(board, x + width - 1, y)
+export const couldZHorizontalBeShown = (board, {x, y, width, height}) => {
+	return isPositionFree(board, x, y)
+		&& isPositionFree(board, x + width - 1, y + height - 1)
 		&& couldSquareBeShown(board, {y, height, x: x + 1, width: width - 2})
+}
+
+export const couldZVerticalBeShown = (board, {x, y, width, height}) => {
+	return isPositionFree(board, x + width - 1, y)
+		&& isPositionFree(board, x, y + height - 1)
+		&& couldSquareBeShown(board, {x, width, y: y + 1, height: height - 2})
 }
