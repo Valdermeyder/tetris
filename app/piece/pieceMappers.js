@@ -1,7 +1,7 @@
-import {i13, i24, j1, j2, j3, j4, o1234, s13, s24, z13, z24} from './pieceTypes'
+import {i13, i24, j1, j2, j3, j4, l1, l2, l3, l4, o1234, s13, s24, z13, z24} from './pieceTypes'
 import {
 	couldSquareBeShown, couldSVerticalBeShown, couldSHorizontalBeShown, couldZHorizontalBeShown, couldZVerticalBeShown,
-	couldJ1BeShown, couldJ2BeShown, couldJ3BeShown, couldJ4BeShown
+	couldJ1BeShown, couldJ2BeShown, couldJ3BeShown, couldJ4BeShown, couldL1BeShown, couldL2BeShown, couldL3BeShown, couldL4BeShown
 } from './pieceTests'
 
 const piecesMap = {
@@ -47,6 +47,22 @@ const piecesMap = {
 	[j4]: {
 		piece: {img: j1, width: 4, height: 2}, changeX: x => x, changeY: y => y,
 		couldBeShown: couldJ4BeShown
+	},
+	[l1]: {
+		piece: {img: l2, width: 2, height: 4}, changeX: x => x + 1, changeY: y => y,
+		couldBeShown: couldL1BeShown
+	},
+	[l2]: {
+		piece: {img: l3, width: 4, height: 2}, changeX: x => x - 1, changeY: y => y + 1,
+		couldBeShown: couldL2BeShown
+	},
+	[l3]: {
+		piece: {img: l4, width: 2, height: 4}, changeX: x => x, changeY: y => y - 1,
+		couldBeShown: couldL3BeShown
+	},
+	[l4]: {
+		piece: {img: l1, width: 4, height: 2}, changeX: x => x, changeY: y => y,
+		couldBeShown: couldL4BeShown
 	}
 }
 

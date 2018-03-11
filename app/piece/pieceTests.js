@@ -54,3 +54,23 @@ export const couldJ4BeShown = (board, {x, y, height}) => {
 	return isPositionFree(board, x, y + height - 1)
 		&& couldSquareBeShown(board, {x: x + 1, width: 1, y, height})
 }
+
+export const couldL1BeShown = (board, {x, y, width, height}) => {
+	return isPositionFree(board, x + width - 1, y)
+		&& couldSquareBeShown(board, {x, width, y: y + 1, height: height - 1})
+}
+
+export const couldL2BeShown = (board, {x, y, width, height}) => {
+	return isPositionFree(board, x + width - 1, y + height - 1)
+		&& couldSquareBeShown(board, {x, width: 1, y, height})
+}
+
+export const couldL3BeShown = (board, {x, y, width, height}) => {
+	return isPositionFree(board, x, y + height - 1)
+		&& couldSquareBeShown(board, {x, width, y, height: 1})
+}
+
+export const couldL4BeShown = (board, {x, y, height}) => {
+	return isPositionFree(board, x, y)
+		&& couldSquareBeShown(board, {x: x + 1, width: 1, y, height})
+}

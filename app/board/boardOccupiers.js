@@ -4,7 +4,8 @@ import yellowBlock from '../../assets/block_yellow.png'
 import greenBlock from '../../assets/block_green.png'
 import redBlock from '../../assets/block_red.png'
 import blueBlock from '../../assets/block_blue.png'
-import {i13, i24, j1, j2, j3, j4, o1234, s13, s24, z13, z24} from '../piece/pieceTypes'
+import orangeBlock from '../../assets/block_orange.png'
+import {i13, i24, j1, j2, j3, j4, l1, l2, l3, l4, o1234, s13, s24, z13, z24} from '../piece/pieceTypes'
 
 const occupyBoardCell = (column, rowIndex, img = cyanBlock) => {
 	column[rowIndex].free = false
@@ -65,6 +66,26 @@ const occupyJ4 = img => (board, {x, y, height}) => {
 	occupySquareBorderCells(img)(board, {x: x + 1, width: 1, y, height})
 }
 
+const occupyL1 = img => (board, {x, y, width, height}) => {
+	occupyBoardCell(board[x + width - 1], y, img)
+	occupySquareBorderCells(img)(board, {x, width, y: y + 1, height: height - 1})
+}
+
+const occupyL2 = img => (board, {x, y, width, height}) => {
+	occupyBoardCell(board[x + width - 1], y + height - 1, img)
+	occupySquareBorderCells(img)(board, {x, width: 1, y, height})
+}
+
+const occupyL3 = img => (board, {x, y, width, height}) => {
+	occupyBoardCell(board[x], y + height - 1, img)
+	occupySquareBorderCells(img)(board, {x, width, y, height: 1})
+}
+
+const occupyL4 = img => (board, {x, y, height}) => {
+	occupyBoardCell(board[x], y, img)
+	occupySquareBorderCells(img)(board, {x: x + 1, width: 1, y, height})
+}
+
 const occupyMap = {
 	[i13]: occupySquareBorderCells(cyanBlock),
 	[i24]: occupySquareBorderCells(cyanBlock),
@@ -76,7 +97,11 @@ const occupyMap = {
 	[j1]: occupyJ1(blueBlock),
 	[j2]: occupyJ2(blueBlock),
 	[j3]: occupyJ3(blueBlock),
-	[j4]: occupyJ4(blueBlock)
+	[j4]: occupyJ4(blueBlock),
+	[l1]: occupyL1(orangeBlock),
+	[l2]: occupyL2(orangeBlock),
+	[l3]: occupyL3(orangeBlock),
+	[l4]: occupyL4(orangeBlock)
 }
 
 export const occupyBoardCells = ({activePiece, board}, boardPiece) => {

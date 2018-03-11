@@ -9,6 +9,10 @@ import j1Img from '../../assets/J_1.png'
 import j2Img from '../../assets/J_2.png'
 import j3Img from '../../assets/J_3.png'
 import j4Img from '../../assets/J_4.png'
+import l1Img from '../../assets/L_1.png'
+import l2Img from '../../assets/L_2.png'
+import l3Img from '../../assets/L_3.png'
+import l4Img from '../../assets/L_4.png'
 
 export const i13 = iHorizontalImg
 export const i24 = iVerticalImg
@@ -21,3 +25,7 @@ export const j1 = j1Img
 export const j2 = j2Img
 export const j3 = j3Img
 export const j4 = j4Img
+export const l1 = l1Img
+export const l2 = l2Img
+export const l3 = l3Img
+export const l4 = l4Img
