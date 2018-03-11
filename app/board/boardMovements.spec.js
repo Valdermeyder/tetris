@@ -2,10 +2,11 @@ import {moveToFloor, moveToLeft, moveToRight} from './boardMovements'
 import {changeBoardImages} from './boardActions'
 import {gameOver} from '../appActions'
 import {generateActivePiece} from '../piece/pieceActions'
+import {i13} from '../piece/pieceTypes'
 
-describe('boardMovements', () => {
+describe('boardMovements i13', () => {
 	function createTestActivePiece(tileSize, columns = 1, rows = 1) {
-		return {x: 0, y: 0, width: tileSize * columns, height: tileSize * rows}
+		return {x: 0, y: 0, width: tileSize * columns, height: tileSize * rows, texture: {textureCacheIds: [i13]}}
 	}
 
 	describe('#moveToFloor', () => {
@@ -32,21 +33,19 @@ describe('boardMovements', () => {
 
 		test('should release row when whole row is occupied', () => {
 			const appState = {board: board, activePiece: activePiece, tileSize}
-			moveToFloor(appState, jest.fn(), tileSize)
-			moveToFloor(appState, jest.fn(), tileSize)
+			moveToFloor(appState, jest.fn())
 			appState.activePiece = createTestActivePiece(tileSize)
 			appState.activePiece.x = tileSize
-			moveToFloor(appState, jest.fn(), tileSize)
-			moveToFloor(appState, jest.fn(), tileSize)
+			moveToFloor(appState, jest.fn())
 			expect(board[0][1].free).toBeTruthy()
 			expect(board[1][1].free).toBeTruthy()
 		})
 
 		test('should release all occupied rows', () => {
-			activePiece = createTestActivePiece(tileSize, 2)
+			activePiece = createTestActivePiece(tileSize, 1, 2)
 			const appState = {board: board, activePiece: activePiece, tileSize}
 			moveToFloor(appState, jest.fn(), tileSize)
-			appState.activePiece = createTestActivePiece(tileSize, 2)
+			appState.activePiece = createTestActivePiece(tileSize, 1, 2)
 			appState.activePiece.x = tileSize
 			moveToFloor(appState, jest.fn(), tileSize)
 			expect(board[0][1].free).toBeTruthy()
@@ -172,8 +171,8 @@ describe('boardMovements', () => {
 			expect(activePiece.x).toBe(tileSize)
 		})
 
-		test('should not decrement activePiece x when right border is reached for one piece row', () => {
-			board = [[{free: true}, {free: true}], [{free: false}, {free: true}]]
+		test('should not decrement activePiece x when left border is reached for one piece row', () => {
+			board = [[{free: true}, {free: false}], [{free: true}, {free: true}]]
 			activePiece = createTestActivePiece(tileSize, 1, 2)
 			activePiece.x = tileSize
 			const appState = {board: board, activePiece: activePiece, tileSize}

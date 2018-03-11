@@ -1,9 +1,9 @@
-import iHorizontalImg from '../../assets/I_1-3.png'
-import oImg from '../../assets/O_1-2-3-4.png'
+import {i13, o1234, s13} from './pieceTypes'
 
 const imgMap = {
-	0: iHorizontalImg,
-	1: oImg
+	0: i13,
+	1: o1234,
+	2: s13
 }
 
-export const generateActiveImg = () => imgMap[Math.floor(Math.random() * Object.keys(imgMap).length)]
+export const generateActivePiece = () => imgMap[Math.floor(Math.random() * Object.keys(imgMap).length)]

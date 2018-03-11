@@ -1,6 +1,6 @@
-export const mapColumnsToRows = ({board}, activePiece) => {
-	const yFirstIndex = activePiece.y
-	const yLastIndex = yFirstIndex + activePiece.height
+export const mapColumnsToRows = (board, piece) => {
+	const yFirstIndex = piece.y
+	const yLastIndex = yFirstIndex + piece.height
 	return board
 		.map(column => column.filter((row, index) => index >= yFirstIndex && index < yLastIndex))
 		.reduce((rows, column) => {
@@ -9,14 +9,10 @@ export const mapColumnsToRows = ({board}, activePiece) => {
 		}, [])
 }
 
-export const mapPieceYToRowIndex = (piece) => {
-	return piece.y
-}
-
-export const mapPieceCoordinatesToBoardIndexes = (piece, tileSize) => {
+export const calculatePieceIndexes = (piece) => {
 	const columnFirstIndex = piece.x
 	const columnLastIndex = columnFirstIndex + piece.width
-	const rowFirstIndex = mapPieceYToRowIndex(piece, tileSize)
+	const rowFirstIndex = piece.y
 	const rowLastIndex = rowFirstIndex + piece.height
 	return {columnFirstIndex, columnLastIndex, rowFirstIndex, rowLastIndex}
 }

@@ -2,7 +2,7 @@ import {Application, loader} from 'pixi.js/dist/pixi.min'
 // eslint-disable-next-line import/no-unresolved
 import assets from '../assets/*.png'
 import {createBackground} from './Background'
-import {generateActiveImg} from './piece/pieceGenerators'
+import {generateActivePiece} from './piece/pieceGenerators'
 import {getArrowsHandler} from './board/boardKeyHandlers'
 import {generateLoading} from './textSprites'
 import {createPieceSprite} from './piece/pieceCreators'
@@ -24,7 +24,7 @@ export const createApp = ({tileSize, wideCells, heightCells}) => {
 	app.stage.addChild(generateLoading())
 	loader.add(Object.entries(assets)).load(() => {
 		app.stage.addChild(createBackground(appState))
-		appState.activePiece = createPieceSprite(generateActiveImg())
+		appState.activePiece = createPieceSprite(generateActivePiece())
 		const dispatch = onAction(appState)
 		const arrowsKeyDownHandler = getArrowsHandler(appState, dispatch)
 		window.addEventListener('keydown', arrowsKeyDownHandler)

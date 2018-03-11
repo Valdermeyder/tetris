@@ -1,7 +1,6 @@
-import {getRotatedPiece, getRotatedPieceImage} from '../piece/pieceMappers'
+import {getPieceConfig, getRotatedPieceCfg} from '../piece/pieceMappers'
 import {moveToFloor, moveToLeft, moveToRight} from './boardMovements'
 import {changeActivePiece} from '../piece/pieceActions'
-import {couldBeRotated} from '../piece/pieceTests'
 
 const keyCodes = {
 	leftArrow: 37,
@@ -22,11 +21,11 @@ export const getArrowsHandler = (state, dispatch) => event => {
 			break
 		case keyCodes.upArrow: {
 			event.preventDefault()
-			const rotatedPiece = getRotatedPiece(state.activePiece, state.tileSize)
-			if (rotatedPiece && couldBeRotated(state.board, rotatedPiece)) {
-				dispatch(changeActivePiece(getRotatedPieceImage(state.activePiece.texture.textureCacheIds[0]), {
-					x: rotatedPiece.x * state.tileSize,
-					y: rotatedPiece.y * state.tileSize
+			const rotatedPieceCfg = getRotatedPieceCfg(state.activePiece, state.tileSize)
+			if (rotatedPieceCfg && getPieceConfig(rotatedPieceCfg.img).couldBeShown(state.board, rotatedPieceCfg)) {
+				dispatch(changeActivePiece(rotatedPieceCfg.img, {
+					x: rotatedPieceCfg.x * state.tileSize,
+					y: rotatedPieceCfg.y * state.tileSize
 				}))
 			}
 			break

@@ -1,6 +1,6 @@
 import {CHANGE_ACTIVE_PIECE, GENERATE_ACTIVE_PIECE} from './piece/pieceActionTypes'
 import {createPieceSprite} from './piece/pieceCreators'
-import {generateActiveImg} from './piece/pieceGenerators'
+import {generateActivePiece} from './piece/pieceGenerators'
 import {createBackground} from './Background'
 import {CHANGE_BOARD_IMAGES} from './board/boardActionTypes'
 import {GAME_OVER} from './appActionTypes'
@@ -16,7 +16,7 @@ export const onAction = state => action => {
 			break
 		}
 		case GENERATE_ACTIVE_PIECE: {
-			const newActivePiece = createPieceSprite(generateActiveImg(), action.cfg)
+			const newActivePiece = createPieceSprite(generateActivePiece(), action.cfg)
 			state.container.removeChild(state.activePiece)
 			state.container.addChild(newActivePiece)
 			state.activePiece = newActivePiece

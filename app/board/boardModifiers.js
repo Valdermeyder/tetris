@@ -1,21 +1,5 @@
-import {mapColumnsToRows, mapPieceCoordinatesToBoardIndexes, mapPieceYToRowIndex} from './boardMappers'
+import {mapColumnsToRows} from './boardMappers'
 import {initBoardCell} from './boardGenerators'
-import cyanBlock from '../../assets/block_cyan.png'
-
-const occupyBoardCell = (column, rowIndex) => {
-	column[rowIndex].free = false
-	column[rowIndex].img = cyanBlock
-}
-
-export const occupyBorderCells = ({board, tileSize}, activePiece) => {
-	const {columnFirstIndex, columnLastIndex, rowFirstIndex, rowLastIndex} = mapPieceCoordinatesToBoardIndexes(activePiece, tileSize)
-	for (let columnIndex = columnFirstIndex; columnIndex < columnLastIndex; columnIndex++) {
-		const column = board[columnIndex]
-		for (let rowIndex = rowFirstIndex; rowIndex < rowLastIndex; rowIndex++) {
-			occupyBoardCell(column, rowIndex)
-		}
-	}
-}
 
 const toMarkedOccupiedRows = firstIndex => (map, row) => {
 	map[firstIndex++] = row.every(column => !column.free)
@@ -44,9 +28,9 @@ const modifyColumn = markedOccupiedRows => column => {
 
 const isOccupied = occupied => occupied
 
-export const releaseFullyOccupiedRows = ({board, tileSize}, activePiece) => {
-	const occupiedRowsToColumns = mapColumnsToRows({board, tileSize}, activePiece)
-	const markedOccupiedRows = occupiedRowsToColumns.reduce(toMarkedOccupiedRows(mapPieceYToRowIndex(activePiece, tileSize)), {})
+export const releaseFullyOccupiedRows = (board, boardPiece) => {
+	const occupiedRowsToColumns = mapColumnsToRows(board, boardPiece)
+	const markedOccupiedRows = occupiedRowsToColumns.reduce(toMarkedOccupiedRows(boardPiece.y), {})
 	if (Object.entries(markedOccupiedRows).some(isOccupied)) {
 		board.forEach(modifyColumn(markedOccupiedRows))
 	}

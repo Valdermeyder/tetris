@@ -1,24 +1,37 @@
-import iHorizontalImg from '../../assets/I_1-3.png'
-import iVerticalImg from '../../assets/I_2-4.png'
+import {couldSquareBeShown, couldSVerticalBeShown, couldSHorizontalBeShown} from '../piece/pieceTests'
+import {i13, i24, o1234, s13, s24} from './pieceTypes'
 
-const rotateMap = {
-	[iHorizontalImg]: {img: iVerticalImg, changeX: (x) => x + 2, changeY: (y) => y, width: 1, height: 4},
-	[iVerticalImg]: {img: iHorizontalImg, changeX: (x) => x - 2, changeY: (y) => y + 2, width: 4, height: 1}
-}
-
-export const getRotatedPieceImage = image => rotateMap[image].img
-
-export const getRotatedPiece = (sprite, tileSize) => {
-	const currentPiece = sprite.texture.textureCacheIds[0]
-	const rotatedCfg = rotateMap[currentPiece]
-	return rotatedCfg && {
-		img: rotatedCfg.img,
-		x: rotatedCfg.changeX(mapSpriteCoordinate(sprite.x, tileSize)),
-		y: rotatedCfg.changeY(mapSpriteCoordinate(sprite.y, tileSize)),
-		width: rotatedCfg.width,
-		height: rotatedCfg.height
+const piecesMap = {
+	[i13]: {
+		piece: {img: i24, width: 1, height: 4}, changeX: (x) => x + 2, changeY: (y) => y - 1,
+		couldBeShown: couldSquareBeShown
+	},
+	[i24]: {
+		piece: {img: i13, width: 4, height: 1}, changeX: (x) => x - 2, changeY: (y) => y + 1,
+		couldBeShown: couldSquareBeShown
+	},
+	[o1234]: {
+		couldBeShown: couldSquareBeShown
+	},
+	[s13]: {
+		piece: {img: s24, width: 2, height: 4}, changeX: (x) => x + 1, changeY: (y) => y - 1,
+		couldBeShown: couldSHorizontalBeShown
+	},
+	[s24]: {
+		piece: {img: s13, width: 4, height: 2}, changeX: (x) => x - 1, changeY: (y) => y + 1,
+		couldBeShown: couldSVerticalBeShown
 	}
 }
+
+export const getRotatedPieceCfg = (sprite, tileSize) => {
+	const rotatedCfg = piecesMap[sprite.texture.textureCacheIds[0]]
+	return rotatedCfg && rotatedCfg.piece && Object.assign({}, rotatedCfg.piece, {
+		x: rotatedCfg.changeX(mapSpriteCoordinate(sprite.x, tileSize)),
+		y: rotatedCfg.changeY(mapSpriteCoordinate(sprite.y, tileSize))
+	})
+}
+
+export const getPieceConfig = (pieceType) => piecesMap[pieceType]
 
 export const mapSpriteCoordinate = (coordinate, divider = 1, diff = 0) =>
 	Math.round((coordinate + diff) / divider)
