@@ -10,4 +10,4 @@ const imgMap = {
 	6: t1
 }
 
-export const generateActivePiece = () => imgMap[Math.floor(Math.random() * Object.keys(imgMap).length)]
+export const generateActivePieceImg = () => imgMap[Math.floor(Math.random() * Object.keys(imgMap).length)]
