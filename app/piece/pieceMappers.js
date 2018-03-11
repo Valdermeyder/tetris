@@ -11,7 +11,7 @@ export const getRotatedPieceImage = image => rotateMap[image].img
 export const getRotatedPiece = (sprite, tileSize) => {
 	const currentPiece = sprite.texture.textureCacheIds[0]
 	const rotatedCfg = rotateMap[currentPiece]
-	return {
+	return rotatedCfg && {
 		img: rotatedCfg.img,
 		x: rotatedCfg.changeX(mapSpriteCoordinate(sprite.x, tileSize)),
 		y: rotatedCfg.changeY(mapSpriteCoordinate(sprite.y, tileSize)),

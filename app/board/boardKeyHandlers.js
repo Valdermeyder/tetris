@@ -23,7 +23,7 @@ export const getArrowsHandler = (state, dispatch) => event => {
 		case keyCodes.upArrow: {
 			event.preventDefault()
 			const rotatedPiece = getRotatedPiece(state.activePiece, state.tileSize)
-			if (couldBeRotated(state.board, rotatedPiece)) {
+			if (rotatedPiece && couldBeRotated(state.board, rotatedPiece)) {
 				dispatch(changeActivePiece(getRotatedPieceImage(state.activePiece.texture.textureCacheIds[0]), {
 					x: rotatedPiece.x * state.tileSize,
 					y: rotatedPiece.y * state.tileSize
